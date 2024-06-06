@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Title>DiscordNetKit</Title>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>DiscordNetKit</PackageId>
+    <Authors>Tempest</Authors>
+    <Company>Tempest</Company>
+    <PackageTags>Discord;C#;API</PackageTags>
+    <Version>1.1.2</Version>
+    <Description>This tool simplifies the integration of Discord functionalities into your .NET applications, allowing developers to focus on building engaging bot interactions with minimal overhead.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+</Project>
