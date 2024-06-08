@@ -11,15 +11,32 @@ namespace DiscordNetKit.HttpClients;
 
 public class DiscordHttpClient : IHttpClient
 {
+    public string UserAgent { get; set; }
     public Token Token { get; set; }
 
     private readonly RegularHttpClient _httpClient;
 
 
-    public DiscordHttpClient(Token token)
+    public DiscordHttpClient(
+        Token token,
+        string userAgent = "")
     {
         Token = token;
+        UserAgent = userAgent;
         _httpClient = new RegularHttpClient();
+
+
+        if (UserAgent is not null && UserAgent != string.Empty)
+        {
+            _httpClient.DefaultRequestHeaders.Add("User-Agent", UserAgent);
+        }
+
+        _httpClient.DefaultRequestHeaders.Add("Host", "discord.com");
+
+        if (Token.AccessToken is not null && Token.AccessToken != string.Empty)
+        {
+            _httpClient.DefaultRequestHeaders.Add("Authorization", $"{Token.TokenType} {Token.AccessToken}");
+        }
     }
 
 
@@ -36,8 +53,6 @@ public class DiscordHttpClient : IHttpClient
         where T2 : class
     {
         route.Headers ??= new StringDictionary();
-
-        route.Headers.Add("Authorization", $"{Token.TokenType} {Token.AccessToken}");
 
         ClearAndAppendHeaders(route.Headers);
 
@@ -63,15 +78,30 @@ public class DiscordHttpClient : IHttpClient
         where T1 : class
         where T2 : class
     {
-        var result  = await _httpClient.GetAsync(route.Url);
+        HttpResponseMessage result;
+
+        try
+        {
+            result = await _httpClient.GetAsync(route.Url);
+        }
+        catch (Exception ex)
+        {
+            throw new DiscordException("Failed to execute GET request", ex);
+        }
+
+        if (result == null)
+        {
+            throw new DiscordException("HTTP request returned null response.");
+        }
 
         if (!result.IsSuccessStatusCode)
         {
-            throw new DiscordException(await result.Content.ReadAsStringAsync() ?? "API call failed", (int)result.StatusCode);
+            var errorContent = await result.Content.ReadAsStringAsync();
+            Console.WriteLine($"HTTP Error: {errorContent}");
+            throw new DiscordException(errorContent ?? "API call failed", (int)result.StatusCode);
         }
 
         var content = await result.Content.ReadAsStringAsync();
-
         return JsonConvert.DeserializeObject<T2>(content) ?? throw new DiscordException("Failed to deserialize response");
     }
 
@@ -156,11 +186,13 @@ public class DiscordHttpClient : IHttpClient
     /// <param name="headers"></param>
     private void ClearAndAppendHeaders(StringDictionary headers)
     {
-        _httpClient.DefaultRequestHeaders.Clear();
-
         foreach (var header in headers)
         {
-            Console.WriteLine(header);
+            if (_httpClient.DefaultRequestHeaders.Contains(header.Key))
+            {
+                _httpClient.DefaultRequestHeaders.Remove(header.Key);
+            }
+
             _httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
         }
     }
