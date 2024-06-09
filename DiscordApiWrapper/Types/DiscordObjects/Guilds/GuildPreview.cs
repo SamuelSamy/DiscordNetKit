@@ -10,8 +10,8 @@ public class GuildPreview : IGuildPreview
     public string? Icon { get; set; }
     public string? Splash { get; set; }
     public string? DiscoverySplash { get; set; }
-    public IList<IEmoji> Emojis { get; set; }
-    public IList<string> Features { get; set; }
+    public List<Emoji> Emojis { get; set; }
+    public List<string> Features { get; set; }
     public ulong? ApproximateMemberCount { get; set; }
     public ulong? ApproximatePresenceCount { get; set; }
     public string Description { get; set; }

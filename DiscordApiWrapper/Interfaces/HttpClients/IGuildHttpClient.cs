@@ -98,10 +98,11 @@ public interface IGuildHttpClient : IBaseHttpClient
     /// <param name="limit"></param>
     /// <returns></returns>
     public async Task<List<Member>> SearchGuildMemberAsync(
+        Snowflake guildId,
         string query,
         int limit = 1)
     {
-        var url = $"{Url}/search?query={query}&limit={limit}";
+        var url = $"{Url}/{guildId}/members/search?query={query}&limit={limit}";
 
         var route = new Route<IgnoredRouteType>(url, MethodType.GET);
 

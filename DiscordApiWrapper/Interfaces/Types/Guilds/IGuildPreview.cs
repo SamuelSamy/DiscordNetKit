@@ -1,5 +1,6 @@
 ﻿using DiscordNetKit.Enums;
 using DiscordNetKit.Types;
+using DiscordNetKit.Types.DiscordObjects;
 using Newtonsoft.Json;
 
 namespace DiscordNetKit.Interfaces.Types.Guilds;
@@ -17,9 +18,9 @@ public interface IGuildPreview
     [JsonProperty("discovery_splash")]
     public string? DiscoverySplash { get; set; }
 
-    public IList<IEmoji> Emojis { get; set; }
+    public List<Emoji> Emojis { get; set; }
 
-    public IList<string> Features { get; set; }
+    public List<string> Features { get; set; }
 
 
     [JsonProperty("approximate_member_count")]
