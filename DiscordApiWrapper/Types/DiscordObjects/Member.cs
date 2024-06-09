@@ -24,4 +24,5 @@ public class Member : IMember
     public ulong? PremiumType { get; set; }
     public ulong? PublicFlags { get; set; }
     public string AvatarDecoration { get; set; }
+    public User User { get; set; }
 }

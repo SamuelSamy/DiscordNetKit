@@ -1,7 +1,5 @@
 ﻿using DiscordNetKit.Constants;
 using DiscordNetKit.Enums;
-using DiscordNetKit.Interfaces.Types;
-using DiscordNetKit.Interfaces.Types.Guilds;
 using DiscordNetKit.Types;
 using DiscordNetKit.Types.DiscordObjects;
 using DiscordNetKit.Types.DiscordObjects.Guilds;
@@ -17,7 +15,7 @@ public interface IGuildHttpClient : IBaseHttpClient
     /// </summary>
     /// <param name="snowflake"></param>
     /// <returns></returns>
-    public async Task<IGuild> GetGuildByIdAsync(Snowflake snowflake)
+    public async Task<Guild> GetGuildByIdAsync(Snowflake snowflake)
     {
         var url = $"{Url}/{snowflake}?with_counts=true";
 
@@ -32,7 +30,7 @@ public interface IGuildHttpClient : IBaseHttpClient
     /// </summary>
     /// <param name="snowflake"></param>
     /// <returns></returns>
-    public async Task<IGuildPreview> GetGuildPreviewByIdAsync(Snowflake snowflake)
+    public async Task<GuildPreview> GetGuildPreviewByIdAsync(Snowflake snowflake)
     {
         var url = $"{Url}/{snowflake}/preview";
 
@@ -62,7 +60,7 @@ public interface IGuildHttpClient : IBaseHttpClient
     /// <param name="guildId"></param>
     /// <param name="userId"></param>
     /// <returns></returns>
-    public async Task<IMember> GetGuildMemberAsync(
+    public async Task<Member> GetGuildMemberAsync(
         Snowflake guildId,
         Snowflake userId)
     {

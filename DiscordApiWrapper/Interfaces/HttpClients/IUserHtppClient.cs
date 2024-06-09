@@ -42,7 +42,7 @@ public interface IUserHtppClient : IBaseHttpClient
     /// Gets a member object for the current user in a guild.
     /// </summary>
     /// <returns></returns>
-    public async Task<IMember> GetCurrentUserGuildMemberAsync(Snowflake guildId)
+    public async Task<Member> GetCurrentUserGuildMemberAsync(Snowflake guildId)
     {
         var url = $"{Url}/@me/guilds/{guildId}/member";
 
@@ -57,7 +57,7 @@ public interface IUserHtppClient : IBaseHttpClient
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    public async Task<IUser> GetUserAsync(Snowflake userId)
+    public async Task<User> GetUserAsync(Snowflake userId)
     {
         var url = $"{Url}/{userId}";
 
